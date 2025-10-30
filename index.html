@@ -3,16 +3,39 @@
   <head>
     <meta charset="utf-8" />
     <title>HubSpot Live Chat</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        background-color: #fff;
+      }
+    </style>
   </head>
   <body>
     <script>
-      // Extract email from query string
+      // Extract email parameter
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
 
-      console.log("Loaded HubSpot chat for:", email);
+      console.log("Requested chat for:", email);
 
-      // Identify visitor to HubSpot
+      // ✅ Clear HubSpot cookies to force a new session if needed
+      (function clearHubSpotCookies() {
+        const hubspotCookies = [
+          'hubspotutk',
+          'messagesUtk',
+          'hubspotapi-csrf',
+          'hubspotapi-prefs'
+        ];
+        hubspotCookies.forEach(name => {
+          // Adjust domain for GitHub Pages hosting
+          document.cookie = `${name}=; path=/; domain=.sampangiprasad.github.io; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+          document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+        });
+        console.log("HubSpot cookies cleared");
+      })();
+
+      // Configure HubSpot Conversations with the provided email
       window.hsConversationsSettings = {
         loadImmediately: true,
         identificationEmail: email
@@ -25,7 +48,9 @@
       id="hs-script-loader"
       async
       defer
-      src="//js.hs-scripts.com/243153674.js">
+      src="https://js.hs-scripts.com/243153674.js">
     </script>
   </body>
 </html>
+
+
