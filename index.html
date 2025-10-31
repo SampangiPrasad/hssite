@@ -1,73 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HubSpot Live Chat</title>
-
     <style>
-      html,
-      body {
+      html, body {
         height: 100%;
         margin: 0;
-        padding: 0;
-        background: transparent; /* 👈 no white background */
-        overflow: hidden; /* hide scrollbars */
-      }
-
-      /* Make sure the HubSpot widget floats only as a bubble */
-      #hubspot-messages-iframe-container,
-      iframe[id*="hubspot-messages-iframe"] {
-        position: fixed !important;
-        bottom: 16px !important;
-        right: 16px !important;
-        width: auto !important;
-        height: auto !important;
-        z-index: 999999 !important;
+        background-color: #fff;
       }
     </style>
   </head>
-
   <body>
     <script>
-      // Extract email parameter from query string (?email=...)
+      // Extract email parameter
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
 
-      console.log("HubSpot chat requested for:", email);
+      console.log("Requested chat for:", email);
 
-      // ✅ Clear HubSpot cookies to force a fresh session if needed
+      // ✅ Clear HubSpot cookies to force a new session if needed
       (function clearHubSpotCookies() {
         const hubspotCookies = [
-          "hubspotutk",
-          "messagesUtk",
-          "hubspotapi-csrf",
-          "hubspotapi-prefs",
+          'hubspotutk',
+          'messagesUtk',
+          'hubspotapi-csrf',
+          'hubspotapi-prefs'
         ];
-        hubspotCookies.forEach((name) => {
+        hubspotCookies.forEach(name => {
+          // Adjust domain for GitHub Pages hosting
           document.cookie = `${name}=; path=/; domain=.sampangiprasad.github.io; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
           document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
         });
         console.log("HubSpot cookies cleared");
       })();
 
-      // ✅ Configure HubSpot Conversations with the provided email
+      // Configure HubSpot Conversations with the provided email
       window.hsConversationsSettings = {
         loadImmediately: true,
-        identificationEmail: email,
+        identificationEmail: email
       };
     </script>
 
-    <!-- ✅ Load HubSpot Chat Widget -->
+    <!-- HubSpot chat widget -->
     <script
       type="text/javascript"
       id="hs-script-loader"
       async
       defer
-      src="https://js.hs-scripts.com/243153674.js"
-    ></script>
+      src="https://js.hs-scripts.com/243153674.js">
+    </script>
   </body>
 </html>
+
