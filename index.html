@@ -42,6 +42,12 @@
         margin-top: 20px;
         width: 60px;
         height: 60px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      .bot-icon:hover {
+        transform: scale(1.1);
       }
     </style>
   </head>
@@ -51,11 +57,12 @@
       <p>
         Hi Candidate 👋<br>
         You’re here to connect with our <strong>Engage Team</strong> for help and support.<br>
-        The chat widget will appear shortly — you can start a live chat with our support team anytime.
+        Tap the <strong>chat icon</strong> at the bottom-right corner to start a live chat session.
       </p>
       <img src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png"
            alt="Chat Bot Icon"
-           class="bot-icon" />
+           class="bot-icon"
+           onclick="startChat()" />
     </div>
 
     <script>
@@ -81,11 +88,20 @@
         console.log("HubSpot cookies cleared");
       })();
 
-      // ✅ Configure HubSpot Conversations to load immediately
+      // Configure HubSpot Conversations with the provided email
       window.hsConversationsSettings = {
-        loadImmediately: true, // load as soon as script loads
+        loadImmediately: true, 
         identificationEmail: email
       };
+
+      // Function to start chat when user taps the bot icon
+      function startChat() {
+        if (window.HubSpotConversations) {
+          window.HubSpotConversations.widget.load();
+        } else {
+          console.log("HubSpot script not yet ready.");
+        }
+      }
     </script>
 
     <!-- HubSpot chat widget -->
